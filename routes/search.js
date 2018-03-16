@@ -7,12 +7,11 @@ const savedDirectionsController = require('../controllers/saved-directions-contr
 const savedPinsController = require('../controllers/saved-pins-controller');
 const searchHistoryController = require('../controllers/search-history-controller');
 const { verifyToken } = require('../controllers/utils-controller');
-/* TODO - require specific functions needed for search from google-api-controller */
-const { autocomplete } = require('../controllers/google-api-controller');
+const { autocomplete, placeDetails, textSearch } = require('../controllers/google-api-controller');
 
 /**
  * @description Handle requests to search main end point
- * 
+ *
  * @api {GET} /search
  * @return {success: false, error: err} Not a valid end point
  */
@@ -32,8 +31,13 @@ router.post('/savedpins', verifyToken, savedPinsController.postSavedPins);
 router.delete('/savedpins', verifyToken, savedPinsController.deleteSavedPins);
 router.delete('/savedpins/:id', verifyToken, savedPinsController.deleteSavedPinsById);
 
-// TODO - delete: will most likely do search autocomplete from frontend
-// router.post('/autocomplete', autocomplete);
+/**
+ * Search and Places query endpoints
+ */
+router.get('/places/:id', placeDetails);
+router.post('/autocomplete', autocomplete);
+router.get('/textsearch', textSearch);
+router.post('/textsearch', textSearch);
 
 /**
  * Saved search history end points

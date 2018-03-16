@@ -1,41 +1,34 @@
 import {h, Component} from 'preact';
-import style from './style';
-
-import Menu from 'preact-material-components/Menu';
-import Button from 'preact-material-components/Button';
-
-import 'preact-material-components/List/style.css';
-import 'preact-material-components/Menu/style.css';
-import 'preact-material-components/Button/style.css';
-
-import Logo from '../Logo';
+import { route } from 'preact-router';
+import style from './style.css';
 
 export default class Nav extends Component {
-	render(){
-		return (
-			<div class={style.nav}>
-				<Menu.Anchor>
-					<Button
-						onClick={e => {
-							this.menu.MDComponent.open = true;
-						}}
-					>
-						&#9776;
-					</Button>
-					<Menu
-						ref={menu => {
-							this.menu = menu;
-						}}
-					>
-						<a href="/"><Menu.Item>Home</Menu.Item></a>
-						<a href="/maps"><Menu.Item>Maps</Menu.Item></a>
-						<a href="/directions"><Menu.Item>Directions</Menu.Item></a>
-						<a href="/places"><Menu.Item>Places</Menu.Item></a>						
-						<a href="/profile"><Menu.Item>Profile</Menu.Item></a>
-						<a href="/signin"><Menu.Item>Sign in</Menu.Item></a>
-					</Menu>
-				</Menu.Anchor>
-			</div>
-		);
-	}
+  constructor(props) {
+    super(props);
+
+    this.routeToHome = this.routeToHome.bind(this);
+    this.routeToProfile = this.routeToProfile.bind(this);
+  } 
+
+  routeToHome() {
+    route('/', true);
+  };
+
+  routeToProfile() {
+    route('/profile', true);
+  };
+
+  render() {
+    const styles = {
+      height: this.props.navHeight,
+    }
+    return (
+      <div class={style.nav} style={styles}>
+        <img src='../../assets/icons/leaflet/SVG/NaviHomeIcon.svg' alt='Home screen icon'
+          class={style.homeIcon} onClick={this.routeToHome}/>
+        <img src='../../assets/icons/leaflet/SVG/ProfileIcon.svg' alt='Profile page icon'
+          class={style.profileIcon} onClick={this.routeToProfile}/>
+      </div>
+    );
+  }
 }

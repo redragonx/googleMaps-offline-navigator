@@ -1,22 +1,38 @@
 import { h, Component } from 'preact';
 import style from './style';
-// import MapContainer from '../../components/GoogleMap';
-import MapContainer from '../../components/LeafletOsmMap';  // use leaflet.js for now
-import SearchAutocomplete from '../../components/search';
-
+import { route } from 'preact-router';
+import Search from '../../components/Search';
+import SearchResults from '../../components/SearchResults';
 
 export default class Home extends Component {
+	constructor(props) {
+		super(props);
+
+		this.routeToMap = this.routeToMap.bind(this);
+	}
+
+	routeToMap() {
+		route('/maps', true);
+	}
+
 	render() {
 		return (
 			<div class={style.home}>
-				<p>What Can Map-e find for you today!</p>
-				<SearchAutocomplete />
-				<button type="submit">Search</button>
-				<a href="/maps"><button>Map</button></a>
-				<a href="/directions"><button>Directions</button></a>
-				<a href="/places"><button>Places</button></a>				
-				<a href="/pins"><button>Pins</button></a>
-				<a href="/profile"><button>Profile</button></a>
+				<div class={style.welcome}>
+					<h2>WELCOME TO</h2>
+					<img src='../../assets/icons/leaflet/SVG/darkLogo.svg' />
+				</div>
+				<div class={style.search}>
+					<p>Where can we take you today?</p>
+					<Search>
+						<SearchResults />
+					</Search>
+				</div>
+				<div class={style.myLocation}>
+				<a href="/maps" class={style.mapLink}>where am I?</a>
+				<img src='../../assets/icons/leaflet/SVG/FindLocationPin.svg'
+					class={style.pin} onClick={this.routeToMap}/>	
+				</div>
 			</div>
 		);
 	}
